@@ -12,27 +12,26 @@ inline int read(){char ch=getchar();int ret=0,f=1;while(ch>'9'||ch<'0'){if(ch=='
 
 const int mx=205;
 int n,f[mx][mx];char s[mx];
-inline int dfs(int l,int r){
-	if(f[l][r]) return f[l][r];
-	if(l==r){
-		if(s[l]=='{'||s[l]=='}'||s[l]==',') return 2;
-		else return 1;
-	}
-	if(s[l]=='{'&&s[r]=='}'&&(r==l+1||dfs(l+1,r-1)==2)) return f[l][r]=2;
-	f(k,l+1,r-1){
-		if(s[k]==','&&dfs(l,k-1)==2&&dfs(k+1,r)==2) return f[l][r]=2;
-	}
-	return f[l][r]=1;
-}
-
 int main(){
 	//freopen("1127.in","r",stdin);
 	//freopen("1127.out","w",stdout);
-	int t=read();f(i,1,t){
-		mem(f,0);
+	int t=read();f(tt,1,t){
 		scanf("%s",s+1),n=strlen(s+1);
-		if(s[1]!='{'||s[n]!='}') printf("Word #%d: %s\n",i,"No Set");
-		else printf("Word #%d: %s\n",i,dfs(1,n)==2?"Set":"No Set");
+		mem(f,0);
+		if(s[1]=='{'&&s[n]=='}'){
+			f(i,1,n) f[i][i]=1;
+			f(i,1,n-1) if(s[i]=='{'&&s[i+1]=='}') f[i][i+1]=1;
+			f(l,2,n-1){
+				f(i,1,n-l){
+					int j=i+l;
+					if(s[i]=='{'&&s[j]=='}') f[i][j]|=f[i+1][j-1];
+					f(k,i+1,j-1) if(s[k]==',') f[i][j]|=(f[i][k-1]&f[k+1][j]);
+				}
+			}
+		}
+		f(i,1,n) f(j,1,n) printf("%d %d %d\n",i,j,f[i][j]);
+		if(n==2) f[2][1]=s[1]=='{'&&s[2]=='}';
+		printf("Word #%d: %s\n",tt,f[2][n-1]?"Set":"No Set");
 	}
 	return 0;
 }
